@@ -1,15 +1,35 @@
+//Aimee Phillips - No Group - Roster 19
+//http://107.170.128.7/Mwsu-2D-Gaming-Phillips/First_Project/
+//
+
+
+
+
 var mainState = {
 
     preload: function() {
-        game.load.image('player', 'assets/player.png');
+        game.load.image('player', 'assets/Bunny.png');
         game.load.image('wallV', 'assets/wallVertical.png');
         game.load.image('wallH', 'assets/wallHorizontal.png');
-        game.load.image('coin', 'assets/coin.png');
-        game.load.image('enemy', 'assets/enemy.png');
+        game.load.image('coin', 'assets/Carrot.png');
+        game.load.image('enemy', 'assets/Ghost.png');
     },
-
+	
     create: function() { 
-        game.stage.backgroundColor = '#3498db';
+		var me = this;
+ 
+		me.startTime = new Date();
+		me.totalTime = 120;
+		me.timeElapsed = 0;
+ 
+		me.createTimer();
+ 
+		me.gameTimer = game.time.events.loop(100, function(){
+			me.updateTimer();
+		});
+	
+	
+        game.stage.backgroundColor = '#CC99CC';
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.renderer.renderSession.roundPixels = true;
 
@@ -25,8 +45,11 @@ var mainState = {
         this.coin = game.add.sprite(60, 140, 'coin');
         game.physics.arcade.enable(this.coin); 
         this.coin.anchor.setTo(0.5, 0.5);
-
-        this.scoreLabel = game.add.text(30, 30, 'score: 0', { font: '18px Arial', fill: '#ffffff' });
+		
+		this.deathcount = game.add.text(390,300, 'Deaths: 0', {font: '18px Arial', fill: '#ffffff' });
+		this.deaths = 0;
+		
+        this.scoreLabel = game.add.text(30, 30, 'Score: 0', { font: '18px Arial', fill: '#ffffff' });
         this.score = 0;
 
         this.enemies = game.add.group();
@@ -34,20 +57,80 @@ var mainState = {
         this.enemies.createMultiple(10, 'enemy');
         game.time.events.loop(2200, this.addEnemy, this);
     },
-
+	
     update: function() {
         game.physics.arcade.collide(this.player, this.walls);
         game.physics.arcade.collide(this.enemies, this.walls);
         game.physics.arcade.overlap(this.player, this.coin, this.takeCoin, null, this);
         game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
-
+		
         this.movePlayer(); 
 
         if (!this.player.inWorld) {
-            this.playerDie();
+            this.UpdatePlayerLocation();
         }
     },
+	
+	UpdatePlayerLocation: function() {
+        var PlayerPosition = [
+            {x: 120, y: 60}, {x: 320, y: 60}, 
+            {x: 40, y: 140}, {x: 420, y: 140}, 
+            {x: 110, y: 300}, {x: 340, y: 300},
+			{x: 180, y: 140}, {x: 200, y: 140},
+			{x: 150, y: 40}, {x: 20, y:140}
+        ];
 
+        for (var i = 0; i < PlayerPosition.length; i++) {
+            if (PlayerPosition[i].x == this.player.x) {
+                PlayerPosition.splice(i, 1);
+            }
+        }
+
+        var newPosition = game.rnd.pick(PlayerPosition);
+        this.player.reset(newPosition.x, newPosition.y);
+    },
+	
+	createTimer: function(){
+ 
+    var me = this;
+ 
+    me.timeLabel = me.game.add.text(440,30, '', {font: '18px Arial', fill: '#ffffff' }); 
+    me.timeLabel.anchor.setTo(0.5, 0);
+    me.timeLabel.align = 'center';
+ 
+},
+	
+	updateTimer: function(){
+ 
+    var me = this;
+ 
+    var currentTime = new Date();
+    var timeDifference = me.startTime.getTime() - currentTime.getTime();
+ 
+    //Time elapsed in seconds
+    me.timeElapsed = Math.abs(timeDifference / 1000);
+ 
+    //Time remaining in seconds
+    var timeRemaining = me.totalTime - me.timeElapsed; 
+ 
+    //Convert seconds into minutes and seconds
+    var minutes = Math.floor(timeRemaining / 60);
+    var seconds = Math.floor(timeRemaining) - (60 * minutes);
+ 
+    //Display minutes, add a 0 to the start if less than 10
+    var result = (minutes < 10) ? "0" + minutes : minutes; 
+ 
+    //Display seconds, add a 0 to the start if less than 10
+    result += (seconds < 10) ? ":0" + seconds : ":" + seconds; 
+ 
+    me.timeLabel.text = result;
+ 
+	if(me.timeElapsed >= me.totalTime){
+    game.lockRender = true;
+	};
+},
+	
+	
     movePlayer: function() {
         if (this.cursor.left.isDown) {
             this.player.body.velocity.x = -200;
@@ -66,11 +149,11 @@ var mainState = {
 
     takeCoin: function(player, coin) {
         this.score += 5;
-        this.scoreLabel.text = 'score: ' + this.score;
+        this.scoreLabel.text = 'Score: ' + this.score;
 
         this.updateCoinPosition();
     },
-
+	
     updateCoinPosition: function() {
         var coinPosition = [
             {x: 140, y: 60}, {x: 360, y: 60}, 
@@ -94,7 +177,7 @@ var mainState = {
         if (!enemy) {
             return;
         }
-
+		enemy.tint = Math.random() * 0xffffff;
         enemy.anchor.setTo(0.5, 1);
         enemy.reset(game.width/2, 0);
         enemy.body.gravity.y = 500;
@@ -125,7 +208,9 @@ var mainState = {
     },
 
     playerDie: function() {
-        game.state.start('main');
+		this.deaths += 1;
+		this.deathcount.text = 'Deaths: ' + this.deaths;
+		this.player.reset(game.width/2,game.height/2);
     },
 };
 
