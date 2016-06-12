@@ -1,10 +1,11 @@
 //Aimee Phillips - No Group - Roster 19
 //http://107.170.128.7/Mwsu-2D-Gaming-Phillips/First_Project/
-//
+//Aimee Phillips/First_Project/
+//http://107.170.128.7/Mwsu-2D-Gaming-Phillips/First_Project/
+//Roster 19
+//This is the first assigned project of playing with the game functions and physics
 
-
-
-
+//This is the main state of the game
 var mainState = {
 
     preload: function() {
@@ -16,6 +17,7 @@ var mainState = {
     },
 	
     create: function() { 
+	//This is to create the Timer in the top right corner
 		var me = this;
  
 		me.startTime = new Date();
@@ -27,8 +29,9 @@ var mainState = {
 		me.gameTimer = game.time.events.loop(100, function(){
 			me.updateTimer();
 		});
+	//=============================================
 	
-	
+	//Given code, and changed the background color here
         game.stage.backgroundColor = '#CC99CC';
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.renderer.renderSession.roundPixels = true;
@@ -46,9 +49,10 @@ var mainState = {
         game.physics.arcade.enable(this.coin); 
         this.coin.anchor.setTo(0.5, 0.5);
 		
+	//This is for the deathcount added to the bottom right corner of the game
 		this.deathcount = game.add.text(390,300, 'Deaths: 0', {font: '18px Arial', fill: '#ffffff' });
 		this.deaths = 0;
-		
+	//This is the score in the top left corner of the game
         this.scoreLabel = game.add.text(30, 30, 'Score: 0', { font: '18px Arial', fill: '#ffffff' });
         this.score = 0;
 
@@ -65,7 +69,9 @@ var mainState = {
         game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
 		
         this.movePlayer(); 
-
+		
+//If the player goes out of the world bounds then instead of restarting the game i threw in the previous added 
+//function to update the location of the player randomly
         if (!this.player.inWorld) {
             this.UpdatePlayerLocation();
         }
@@ -90,6 +96,8 @@ var mainState = {
         this.player.reset(newPosition.x, newPosition.y);
     },
 	
+//Creates and runs the timer here in the top right corner of the screen
+//========================================
 	createTimer: function(){
  
     var me = this;
@@ -129,8 +137,9 @@ var mainState = {
     game.lockRender = true;
 	};
 },
+//================================================
 	
-	
+//This moces the player and sets the velocity and game physics
     movePlayer: function() {
         if (this.cursor.left.isDown) {
             this.player.body.velocity.x = -200;
@@ -147,6 +156,7 @@ var mainState = {
         }      
     },
 
+//This is what happens when a coin is taken, which updates the score counter
     takeCoin: function(player, coin) {
         this.score += 5;
         this.scoreLabel.text = 'Score: ' + this.score;
@@ -154,6 +164,8 @@ var mainState = {
         this.updateCoinPosition();
     },
 	
+//This update the coins position after it is already taken by the player
+//It has positions already set to be selected randomly
     updateCoinPosition: function() {
         var coinPosition = [
             {x: 140, y: 60}, {x: 360, y: 60}, 
@@ -171,6 +183,8 @@ var mainState = {
         this.coin.reset(newPosition.x, newPosition.y);
     },
 
+//This adds the enemy and creates one after one has died as well off the screen
+//Also changed the tint of the enemies
     addEnemy: function() {
         var enemy = this.enemies.getFirstDead();
 
@@ -187,6 +201,7 @@ var mainState = {
         enemy.outOfBoundsKill = true;
     },
 
+//This creates the world, adding the walls and sprites
     createWorld: function() {
         this.walls = game.add.group();
         this.walls.enableBody = true;
@@ -207,6 +222,8 @@ var mainState = {
         this.walls.setAll('body.immovable', true);
     },
 
+//This is the function for when the player dies, it is set to count the deaths and
+//I just made the player respawn back but not reset the score as assigned
     playerDie: function() {
 		this.deaths += 1;
 		this.deathcount.text = 'Deaths: ' + this.deaths;
