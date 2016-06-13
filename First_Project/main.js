@@ -227,7 +227,7 @@ var mainState = {
     playerDie: function() {
 		this.deaths += 1;
 		this.deathcount.text = 'Deaths: ' + this.deaths;
-		this.player.reset(game.width/2,game.height/2);
+		this.UpdatePlayerLocation();
     },
 };
 
