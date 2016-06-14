@@ -1,6 +1,7 @@
 var playState = {
     // Removed the preload function
     create: function() {
+		this.createWorld();
         // Removed background color, physics system, and roundPixels
         // Then everything is the same, except at the end...
         // replace 'var score = 0' by this
@@ -16,16 +17,12 @@ var playState = {
 			me.updateTimer();
 		});
 	//=============================================
-	
-	//Given code, and changed the background color here
         this.cursor = game.input.keyboard.createCursorKeys();
         
         this.player = game.add.sprite(game.width/2, game.height/2, 'player');
         this.player.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(this.player);
         this.player.body.gravity.y = 500;
-
-        this.createWorld();
 
         this.coin = game.add.sprite(60, 140, 'coin');
         game.physics.arcade.enable(this.coin); 
@@ -155,4 +152,33 @@ var playState = {
 		me.timeLabel.align = 'center';
  
 	},
+	updateTimer: function(){
+ 
+    var me = this;
+ 
+    var currentTime = new Date();
+    var timeDifference = me.startTime.getTime() - currentTime.getTime();
+ 
+    //Time elapsed in seconds
+    me.timeElapsed = Math.abs(timeDifference / 1000);
+ 
+    //Time remaining in seconds
+    var timeRemaining = me.totalTime - me.timeElapsed; 
+ 
+    //Convert seconds into minutes and seconds
+    var minutes = Math.floor(timeRemaining / 60);
+    var seconds = Math.floor(timeRemaining) - (60 * minutes);
+ 
+    //Display minutes, add a 0 to the start if less than 10
+    var result = (minutes < 10) ? "0" + minutes : minutes; 
+ 
+    //Display seconds, add a 0 to the start if less than 10
+    result += (seconds < 10) ? ":0" + seconds : ":" + seconds; 
+ 
+    me.timeLabel.text = result;
+ 
+	if(me.timeElapsed >= me.totalTime){
+    game.lockRender = true;
+	};
+},
 };
