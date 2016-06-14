@@ -23,7 +23,9 @@ var loadState = {
         game.load.image('wallH', 'assets/wallHorizontal.png');
         game.load.image('coin', 'assets/Carrot.png');
 		
-        game.load.image('enemy', 'assets/Ghost.png');
+ //       game.load.image('enemy', 'assets/Ghost.png');
+ 
+		game.load.spritesheet('enemy', 'assets/GhostieSheet2.png', 33, 32);
 		
         // Load a new asset that we will use in the menu state
         game.load.image('background', 'assets/background.png');

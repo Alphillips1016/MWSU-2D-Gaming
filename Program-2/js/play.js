@@ -3,15 +3,12 @@ var playState = {
     create: function() {
 		this.createWorld();
 		
-//		this.player.animations.add('right', [1, 2], 8, true);
-//		this.player.animations.add('left', [3, 4], 8, true);
-		
 		var sound = game.sound.volume =0.5;
 		this.music = game.add.audio('music'); // Add the music
 		this.music.loop = true; // Make it loop
 		this.music.play(); // Start the music
 		
-		game.stage.backgroundColor = '#CC99CC';
+		game.stage.backgroundColor = '#AB5BA4';
 		
 		var me = this;
  
@@ -70,6 +67,10 @@ var playState = {
 
 		// Use no gravity
 		this.emitter.gravity = 0;
+		
+		this.player.animations.add('right', [1, 2], 8, true);
+		this.player.animations.add('left', [3, 4], 8, true);
+		
     },
     update: function() {
         game.physics.arcade.collide(this.player, this.walls);
@@ -92,7 +93,7 @@ var playState = {
 		}
     },
     movePlayer: function() {
-		
+
         if (this.cursor.left.isDown) {
             this.player.body.velocity.x = -200;
 //			this.player.animation.play('left'); // Left animation
