@@ -31,7 +31,7 @@ var loadState = {
 		game.load.audio('coin', ['assets/coin.ogg', 'assets/coin.mp3']);
 		// Sound when the player dies
 		game.load.audio('dead', ['assets/dead.ogg', 'assets/dead.mp3']);
-//		game.load.audio('music', ['assets/music.ogg', 'assets/music.mp3']);
+		game.load.audio('music', ['assets/next.ogg', 'assets/next.ogg']);
 
     },
     create: function() {
