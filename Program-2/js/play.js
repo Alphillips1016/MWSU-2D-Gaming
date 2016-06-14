@@ -1,15 +1,27 @@
+//Aimee Phillips - No Group - Roster 19
+//http://107.170.128.7/Mwsu-2D-Gaming-Phillips/Program-2/
+//http://107.170.128.7/Mwsu-2D-Gaming-Phillips/First_Project/
+//https://github.com/Alphillips1016/Mwsu-2D-Gaming-Phillips
+//Roster 19
+
+//The play state functin where everything in this state is ran
+
 var playState = {
     // Removed the preload function
-    create: function() {
+    
+	create: function() {
 		this.createWorld();
 		
+//This is to add the sound to the game and start it
 		var sound = game.sound.volume =0.5;
 		this.music = game.add.audio('music'); // Add the music
 		this.music.loop = true; // Make it loop
 		this.music.play(); // Start the music
 		
+//This is the background color change i added to make it purple
 		game.stage.backgroundColor = '#AB5BA4';
 		
+//This is the timer part of the code in order to create and loop it
 		var me = this;
  
 		me.startTime = new Date();
@@ -21,14 +33,15 @@ var playState = {
 		me.gameTimer = game.time.events.loop(100, function(){
 			me.updateTimer();
 		});
-	//=============================================
-	
+
+//This is the mini sound effects added to the game from the assets folder
 		this.jumpSound = game.add.audio('jump');
 		this.coinSound = game.add.audio('coin');
 		this.deadSound = game.add.audio('dead');
 	
         this.cursor = game.input.keyboard.createCursorKeys();
         
+//This is where the player spawns and is added
         this.player = game.add.sprite(game.width/2, game.height/2, 'player');
 		
         game.physics.arcade.enable(this.player);
@@ -39,38 +52,38 @@ var playState = {
         this.coin = game.add.sprite(60, 140, 'coin');
         game.physics.arcade.enable(this.coin); 
         this.coin.anchor.setTo(0.5, 0.5);
-	//This is the score in the top left corner of the game
+//This is the score in the top left corner of the game
         this.scoreLabel = game.add.text(30, 30, 'Score: 0', { font: '18px Arial', fill: '#ffffff' });
         game.global.score = 0;
 
+//Adds the enemy group to loop and add 10 enemies at certain times
         this.enemies = game.add.group();
         this.enemies.enableBody = true;
         this.enemies.createMultiple(10, 'enemy');
         game.time.events.loop(2200, this.addEnemy, this);
 	
 		
-		// Create the emitter with 15 particles. We don't need to set the x y
-		// Since we don't know where to do the explosion yet
+// Create the emitter with 15 particles. We don't need to set the x y
+// Since we don't know where to do the explosion yet
 		this.emitter = game.add.emitter(0, 0, 15);
 
-		// Set the 'pixel' image for the particles
+// Set the 'pixel' image for the particles
 		this.emitter.makeParticles('pixel');
 
-		// Set the x and y speed of the particles between -150 and 150
-		// Speed will be randomly picked between -150 and 150 for each particle
+// Set the x and y speed of the particles between -150 and 150
+// Speed will be randomly picked between -150 and 150 for each particle
 		this.emitter.setYSpeed(-150, 150);
 		this.emitter.setXSpeed(-150, 150);
 
-		// Scale the particles from 2 time their size to 0 in 800ms
-		// Parameters are: startX, endX, startY, endY, duration
+// Scale the particles from 2 time their size to 0 in 800ms
+// Parameters are: startX, endX, startY, endY, duration
 		this.emitter.setScale(2, 0, 2, 0, 800);
 
-		// Use no gravity
+// Use no gravity
 		this.emitter.gravity = 0;
 		
-		this.player.animations.add('left', [1, 2], 8, true);
 		this.player.animations.add('right', [3, 4], 8, true);
-		
+		this.player.animations.add('left', [1, 2], 8, true);
     },
     update: function() {
         game.physics.arcade.collide(this.player, this.walls);
@@ -92,6 +105,8 @@ var playState = {
 			return;
 		}
     },
+	
+//This is the function to decide the actions of the movement of the player and what happens
     movePlayer: function() {
 
         if (this.cursor.left.isDown) {
@@ -113,20 +128,25 @@ var playState = {
             this.player.body.velocity.y = -320;
         }
     },
+	
+//This is the function where the player will take a coin and this will spawn another and add
+//to the score
     takeCoin: function(player, coin) {
 		game.add.tween(this.player.scale).to({x: 1.3, y: 1.3}, 100).yoyo(true).start();
 		
-		// Scale the coin to 0 to make it invisible
+// Scale the coin to 0 to make it invisible
 		this.coin.scale.setTo(0, 0);
-		// Grow the coin back to its original scale in 300ms
+// Grow the coin back to its original scale in 300ms
 		game.add.tween(this.coin.scale).to({x: 1, y: 1}, 300).start();
 		
 		this.coinSound.play();
         game.global.score += 5;
-        // Use the new score variable
+// Use the new score variable
         this.scoreLabel.text = 'score: ' + game.global.score;
         this.updateCoinPosition();
     },
+	
+//Used in the previous, this changes the coin location to random spots
     updateCoinPosition: function() {
         var coinPosition = [
             {x: 140, y: 60}, {x: 360, y: 60}, 
@@ -143,12 +163,15 @@ var playState = {
         var newPosition = game.rnd.pick(coinPosition);
         this.coin.reset(newPosition.x, newPosition.y);
     },
+	
+//This is to add enemies to the world if dead or anything else with their physics
     addEnemy: function() {
         var enemy = this.enemies.getFirstDead();
 
         if (!enemy) {
             return;
         }
+//Tints the colors of the ghosts in the games when they spawn
 		enemy.tint = Math.random() * 0xffffff;
         enemy.anchor.setTo(0.5, 1);
         enemy.reset(game.width/2, 0);
@@ -158,6 +181,8 @@ var playState = {
         enemy.checkWorldBounds = true;
         enemy.outOfBoundsKill = true;
     },
+	
+//This is the function to create the world and walls in it
     createWorld: function() {
         this.walls = game.add.group();
         this.walls.enableBody = true;
@@ -177,6 +202,8 @@ var playState = {
 
         this.walls.setAll('body.immovable', true);
     },
+	
+//This is the player death function; music stops,player dies with sound and ends the game
 	playerDie: function() {
 		this.music.stop();
 		// Kill the player to make it disappear from the screen
@@ -194,6 +221,8 @@ var playState = {
 		
 		
     },
+	
+//This is to update the player location when one drops out of the world
 	UpdatePlayerLocation: function() {
         var PlayerPosition = [
             {x: 120, y: 60}, {x: 320, y: 60}, 
@@ -212,6 +241,8 @@ var playState = {
         var newPosition = game.rnd.pick(PlayerPosition);
         this.player.reset(newPosition.x, newPosition.y);
 	},
+	
+//This is the function used to create the timer
 	createTimer: function(){
  
 		var me = this;
@@ -221,6 +252,8 @@ var playState = {
 		me.timeLabel.align = 'center';
  
 	},
+	
+//This is the funnction used to update the timer that is running in the top corner
 	updateTimer: function(){
  
     var me = this;
@@ -228,20 +261,20 @@ var playState = {
     var currentTime = new Date();
     var timeDifference = me.startTime.getTime() - currentTime.getTime();
  
-    //Time elapsed in seconds
+ //Time elapsed in seconds
     me.timeElapsed = Math.abs(timeDifference / 1000);
  
-    //Time remaining in seconds
+//Time remaining in seconds
     var timeRemaining = me.totalTime - me.timeElapsed; 
  
-    //Convert seconds into minutes and seconds
+ //Convert seconds into minutes and seconds
     var minutes = Math.floor(timeRemaining / 60);
     var seconds = Math.floor(timeRemaining) - (60 * minutes);
  
-    //Display minutes, add a 0 to the start if less than 10
+//Display minutes, add a 0 to the start if less than 10
     var result = (minutes < 10) ? "0" + minutes : minutes; 
  
-    //Display seconds, add a 0 to the start if less than 10
+//Display seconds, add a 0 to the start if less than 10
     result += (seconds < 10) ? ":0" + seconds : ":" + seconds; 
  
     me.timeLabel.text = result;
