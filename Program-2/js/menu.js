@@ -3,7 +3,7 @@ var menuState = {
         // Add a background image
         game.add.image(0, 0, 'background');
         // Display the name of the game
-        var nameLabel = game.add.text(game.width/2, 80, 'Super Coin Box', { font: '50px Arial', fill: '#ffffff' });
+        var nameLabel = game.add.text(game.width/2, 80, 'Lil Bunny', { font: '50px Arial', fill: '#ffffff' });
         nameLabel.anchor.setTo(0.5, 0.5);
         // Show the score at the center of the screen
         var text = 'score: ' + game.global.score + '\nbest score: ' + localStorage.getItem('bestScore');

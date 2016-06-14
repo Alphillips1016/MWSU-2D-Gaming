@@ -3,6 +3,10 @@ var playState = {
     create: function() {
 		this.createWorld();
 		
+		var sound = game.sound.volume =0.5;
+		this.music = game.add.audio('music'); // Add the music
+		this.music.loop = true; // Make it loop
+		this.music.play(); // Start the music
 		
 		// Create the 'right' animation by looping the frames 1 and 2
 //		this.player.animations.add('right', [1, 2], 8, true);
@@ -12,6 +16,7 @@ var playState = {
         // Then everything is the same, except at the end...
         // replace 'var score = 0' by this
 		
+		game.stage.backgroundColor = '#CC99CC';
 		
 		var me = this;
  
@@ -50,10 +55,7 @@ var playState = {
         this.enemies.enableBody = true;
         this.enemies.createMultiple(10, 'enemy');
         game.time.events.loop(2200, this.addEnemy, this);
-		
-		this.music = game.add.audio('music'); // Add the music
-		this.music.loop = true; // Make it loop
-		this.music.play(); // Start the music
+	
 		
 		// Create the emitter with 15 particles. We don't need to set the x y
 		// Since we don't know where to do the explosion yet
@@ -180,8 +182,7 @@ var playState = {
         this.walls.setAll('body.immovable', true);
     },
 	playerDie: function() {
-//		this.music.stop();
-		
+		this.music.stop();
 		// Kill the player to make it disappear from the screen
 		this.player.kill();
 		// Start the sound and the particles
@@ -192,8 +193,10 @@ var playState = {
 		game.camera.shake(0.02, 300);
 
 		// Call the 'startMenu' function in 1000ms
+		
 		game.time.events.add(1000, this.startMenu, this);
-
+		
+		
     },
 	UpdatePlayerLocation: function() {
         var PlayerPosition = [

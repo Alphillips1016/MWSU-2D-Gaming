@@ -13,10 +13,10 @@ var loadState = {
 		
 		game.load.image('pixel', 'assets/pixel.png');
 		
-//		game.load.spritesheet('player', 'assets/player2.png', 45, 45, 4);
+		game.load.spritesheet('player', 'assets/BunnySheet.png', 30, 30);
 		
 		
-        game.load.image('player', 'assets/Bunny.png');
+//        game.load.image('player', 'assets/Bunny.png');
 
 
         game.load.image('wallV', 'assets/wallVertical.png');
@@ -31,11 +31,13 @@ var loadState = {
 		game.load.audio('coin', ['assets/coin.ogg', 'assets/coin.mp3']);
 		// Sound when the player dies
 		game.load.audio('dead', ['assets/dead.ogg', 'assets/dead.mp3']);
-		game.load.audio('music', ['assets/next.ogg', 'assets/next.ogg']);
+	
+		game.load.audio('music', ['assets/Next.mp3', 'assets/Next.ogg']);
 
     },
     create: function() {
         // Go to the menu state
+		
         game.state.start('menu');
     }
 };
