@@ -13,7 +13,7 @@ var loadState = {
 		
 		game.load.image('pixel', 'assets/pixel.png');
 		
-		game.load.spritesheet('player', 'assets/NewBunnySheet.png', 40, 42);
+		game.load.spritesheet('player', 'assets/NewBunnySheet2.png', 40, 42);
 		
 		
 //        game.load.image('player', 'assets/Bunny.png');

@@ -27,24 +27,26 @@ var playState = {
 		this.coinSound = game.add.audio('coin');
 		this.deadSound = game.add.audio('dead');
 	
-        	this.cursor = game.input.keyboard.createCursorKeys();
+        this.cursor = game.input.keyboard.createCursorKeys();
         
-        	this.player = game.add.sprite(game.width/2, game.height/2, 'player');
-        	game.physics.arcade.enable(this.player);
+        this.player = game.add.sprite(game.width/2, game.height/2, 'player');
+		
+        game.physics.arcade.enable(this.player);
 		this.player.anchor.setTo(0.5, 0.5);
-        	this.player.body.gravity.y = 500;
+        
+        this.player.body.gravity.y = 500;
 
-        	this.coin = game.add.sprite(60, 140, 'coin');
-        	game.physics.arcade.enable(this.coin); 
-        	this.coin.anchor.setTo(0.5, 0.5);
-		//This is the score in the top left corner of the game
-        	this.scoreLabel = game.add.text(30, 30, 'Score: 0', { font: '18px Arial', fill: '#ffffff' });
-        	game.global.score = 0;
+        this.coin = game.add.sprite(60, 140, 'coin');
+        game.physics.arcade.enable(this.coin); 
+        this.coin.anchor.setTo(0.5, 0.5);
+	//This is the score in the top left corner of the game
+        this.scoreLabel = game.add.text(30, 30, 'Score: 0', { font: '18px Arial', fill: '#ffffff' });
+        game.global.score = 0;
 
-        	this.enemies = game.add.group();
-        	this.enemies.enableBody = true;
-        	this.enemies.createMultiple(10, 'enemy');
-        	game.time.events.loop(2200, this.addEnemy, this);
+        this.enemies = game.add.group();
+        this.enemies.enableBody = true;
+        this.enemies.createMultiple(10, 'enemy');
+        game.time.events.loop(2200, this.addEnemy, this);
 	
 		
 		// Create the emitter with 15 particles. We don't need to set the x y
@@ -66,8 +68,8 @@ var playState = {
 		// Use no gravity
 		this.emitter.gravity = 0;
 		
-		this.player.animations.add('right', [1, 2], 8, true);
-		this.player.animations.add('left', [3, 4], 8, true);
+		this.player.animations.add('left', [1, 2], 8, true);
+		this.player.animations.add('right', [3, 4], 8, true);
 		
     },
     update: function() {
@@ -81,9 +83,9 @@ var playState = {
 //If the player goes out of the world bounds then instead of restarting the game i threw in the previous added 
 //function to update the location of the player randomly
         if (!this.player.inWorld) {
-		this.deadSound.play();
-		game.camera.flash(0xffffff, 300);
-          	 this.UpdatePlayerLocation();
+			this.deadSound.play();
+			game.camera.flash(0xffffff, 300);
+            this.UpdatePlayerLocation();
         }
 		
 		if (!this.player.alive) {
@@ -91,20 +93,23 @@ var playState = {
 		}
     },
     movePlayer: function() {
-	console.log(this.player);
+
         if (this.cursor.left.isDown) {
             this.player.body.velocity.x = -200;
-	    this.player.animations.play('left'); // Left animation
-        }else if (this.cursor.right.isDown) {
-            this.player.body.velocity.x = 200;
-            this.player.animations.play('right'); // Right animation
-        }else {
-            this.player.body.velocity.x = 0;
-            //this.player.animations.stop(); // Stop animations
-            //this.player.frame = 0; // Change frame (stand still)
+			this.player.animations.play('left'); // Left animation
         }
+        else if (this.cursor.right.isDown) {
+            this.player.body.velocity.x = 200;
+			this.player.animations.play('right'); // Right animation
+        }
+        else {
+            this.player.body.velocity.x = 0;
+			this.player.animations.stop(); // Stop animations
+			this.player.frame = 0; // Change frame (stand still)
+        }
+
         if (this.cursor.up.isDown && this.player.body.touching.down) {
-	    this.jumpSound.play();
+			this.jumpSound.play();
             this.player.body.velocity.y = -320;
         }
     },
