@@ -2,9 +2,17 @@ var playState = {
     // Removed the preload function
     create: function() {
 		this.createWorld();
+		
+		
+		// Create the 'right' animation by looping the frames 1 and 2
+//		this.player.animations.add('right', [1, 2], 8, true);
+		// Create the 'left' animation by looping the frames 3 and 4
+//		this.player.animations.add('left', [3, 4], 8, true);
         // Removed background color, physics system, and roundPixels
         // Then everything is the same, except at the end...
         // replace 'var score = 0' by this
+		
+		
 		var me = this;
  
 		me.startTime = new Date();
@@ -17,11 +25,18 @@ var playState = {
 			me.updateTimer();
 		});
 	//=============================================
+	
+		this.jumpSound = game.add.audio('jump');
+		this.coinSound = game.add.audio('coin');
+		this.deadSound = game.add.audio('dead');
+	
         this.cursor = game.input.keyboard.createCursorKeys();
         
         this.player = game.add.sprite(game.width/2, game.height/2, 'player');
-        this.player.anchor.setTo(0.5, 0.5);
+		
         game.physics.arcade.enable(this.player);
+		this.player.anchor.setTo(0.5, 0.5);
+        
         this.player.body.gravity.y = 500;
 
         this.coin = game.add.sprite(60, 140, 'coin');
@@ -35,6 +50,29 @@ var playState = {
         this.enemies.enableBody = true;
         this.enemies.createMultiple(10, 'enemy');
         game.time.events.loop(2200, this.addEnemy, this);
+		
+		this.music = game.add.audio('music'); // Add the music
+		this.music.loop = true; // Make it loop
+		this.music.play(); // Start the music
+		
+		// Create the emitter with 15 particles. We don't need to set the x y
+		// Since we don't know where to do the explosion yet
+		this.emitter = game.add.emitter(0, 0, 15);
+
+		// Set the 'pixel' image for the particles
+		this.emitter.makeParticles('pixel');
+
+		// Set the x and y speed of the particles between -150 and 150
+		// Speed will be randomly picked between -150 and 150 for each particle
+		this.emitter.setYSpeed(-150, 150);
+		this.emitter.setXSpeed(-150, 150);
+
+		// Scale the particles from 2 time their size to 0 in 800ms
+		// Parameters are: startX, endX, startY, endY, duration
+		this.emitter.setScale(2, 0, 2, 0, 800);
+
+		// Use no gravity
+		this.emitter.gravity = 0;
     },
     update: function() {
         game.physics.arcade.collide(this.player, this.walls);
@@ -47,25 +85,45 @@ var playState = {
 //If the player goes out of the world bounds then instead of restarting the game i threw in the previous added 
 //function to update the location of the player randomly
         if (!this.player.inWorld) {
+			this.deadSound.play();
+			game.camera.flash(0xffffff, 300);
             this.UpdatePlayerLocation();
         }
+		
+		if (!this.player.alive) {
+			return;
+		}
     },
     movePlayer: function() {
+		
         if (this.cursor.left.isDown) {
             this.player.body.velocity.x = -200;
+//			this.player.animation.play('left'); // Left animation
         }
         else if (this.cursor.right.isDown) {
             this.player.body.velocity.x = 200;
+//			this.player.animation.play('right'); // Right animation
         }
         else {
             this.player.body.velocity.x = 0;
+//			this.player.animation.stop(); // Stop animations
+//			this.player.frame = 0; // Change frame (stand still)
         }
 
         if (this.cursor.up.isDown && this.player.body.touching.down) {
+			this.jumpSound.play();
             this.player.body.velocity.y = -320;
         }
     },
     takeCoin: function(player, coin) {
+		game.add.tween(this.player.scale).to({x: 1.3, y: 1.3}, 100).yoyo(true).start();
+		
+		// Scale the coin to 0 to make it invisible
+		this.coin.scale.setTo(0, 0);
+		// Grow the coin back to its original scale in 300ms
+		game.add.tween(this.coin.scale).to({x: 1, y: 1}, 300).start();
+		
+		this.coinSound.play();
         game.global.score += 5;
         // Use the new score variable
         this.scoreLabel.text = 'score: ' + game.global.score;
@@ -122,8 +180,20 @@ var playState = {
         this.walls.setAll('body.immovable', true);
     },
 	playerDie: function() {
-        // When the player dies, we go to the menu
-        game.state.start('menu');
+//		this.music.stop();
+		
+		// Kill the player to make it disappear from the screen
+		this.player.kill();
+		// Start the sound and the particles
+		this.deadSound.play();
+		this.emitter.x = this.player.x;
+		this.emitter.y = this.player.y;
+		this.emitter.start(true, 800, null, 15);
+		game.camera.shake(0.02, 300);
+
+		// Call the 'startMenu' function in 1000ms
+		game.time.events.add(1000, this.startMenu, this);
+
     },
 	UpdatePlayerLocation: function() {
         var PlayerPosition = [
@@ -180,5 +250,8 @@ var playState = {
 	if(me.timeElapsed >= me.totalTime){
     game.lockRender = true;
 	};
+},
+startMenu: function() {
+    game.state.start('menu');
 },
 };
