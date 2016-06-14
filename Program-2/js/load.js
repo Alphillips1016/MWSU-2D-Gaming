@@ -13,7 +13,7 @@ var loadState = {
 		
 		game.load.image('pixel', 'assets/pixel.png');
 		
-		game.load.spritesheet('player', 'assets/BunnySheet.png', 30, 30);
+		game.load.spritesheet('player', 'assets/NewBunnySheet.png', 40, 42);
 		
 		
 //        game.load.image('player', 'assets/Bunny.png');
@@ -22,7 +22,9 @@ var loadState = {
         game.load.image('wallV', 'assets/wallVertical.png');
         game.load.image('wallH', 'assets/wallHorizontal.png');
         game.load.image('coin', 'assets/Carrot.png');
+		
         game.load.image('enemy', 'assets/Ghost.png');
+		
         // Load a new asset that we will use in the menu state
         game.load.image('background', 'assets/background.png');
 		// Sound when the player jumps

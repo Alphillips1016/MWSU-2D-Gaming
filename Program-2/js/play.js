@@ -3,18 +3,13 @@ var playState = {
     create: function() {
 		this.createWorld();
 		
+//		this.player.animations.add('right', [1, 2], 8, true);
+//		this.player.animations.add('left', [3, 4], 8, true);
+		
 		var sound = game.sound.volume =0.5;
 		this.music = game.add.audio('music'); // Add the music
 		this.music.loop = true; // Make it loop
 		this.music.play(); // Start the music
-		
-		// Create the 'right' animation by looping the frames 1 and 2
-//		this.player.animations.add('right', [1, 2], 8, true);
-		// Create the 'left' animation by looping the frames 3 and 4
-//		this.player.animations.add('left', [3, 4], 8, true);
-        // Removed background color, physics system, and roundPixels
-        // Then everything is the same, except at the end...
-        // replace 'var score = 0' by this
 		
 		game.stage.backgroundColor = '#CC99CC';
 		
