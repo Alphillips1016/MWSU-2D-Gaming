@@ -1,6 +1,10 @@
 var loadState = {
     preload: function () {
 		
+		game.load.image('jumpButton', 'assets/jumpButton.png');
+		game.load.image('rightButton', 'assets/rightButton.png');
+		game.load.image('leftButton', 'assets/leftButton.png');
+		
         var loadingLabel = game.add.text(game.width/2, 150, 'loading...', { font: '30px Arial', fill: '#ffffff' });
         loadingLabel.anchor.setTo(0.5, 0.5);
         var progressBar = game.add.sprite(game.width/2, 200, 'progressBar');
@@ -21,7 +25,7 @@ var loadState = {
 		game.load.audio('music', ['assets/Next.mp3', 'assets/Next.ogg']);
 
 		game.load.image('tileset', 'assets/tileset.png');
-		game.load.tilemap('map', 'assets/map3.json', null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap('map', 'assets/map4.json', null, Phaser.Tilemap.TILED_JSON);
 		
     },
     create: function() {

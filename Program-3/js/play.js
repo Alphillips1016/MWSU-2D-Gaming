@@ -74,7 +74,22 @@ var playState = {
 		
 		this.player.animations.add('right', [3, 4], 8, true);
 		this.player.animations.add('left', [1, 2], 8, true);
-    },
+    
+		if (!game.device.desktop) {
+			this.addMobileInputs();
+		}
+		
+		if(!game.device.desktop){
+			game.scale.onOrientationChange.add(this.orientationChange, this);
+			this.rotateLabel = game.add.text(game.width/2, game.height/2, '',
+			{ font: '30px Arial', fill: '#fff', backgroundColor: '#000' });
+			this.rotateLabel.anchor.setTo(0.5, 0.5);
+			this.orientationChange();
+		}
+		
+	},
+	
+	
     update: function() {
 		
         game.physics.arcade.collide(this.player, this.layer);
@@ -100,13 +115,18 @@ var playState = {
 	
 //This is the function to decide the actions of the movement of the player and what happens
     movePlayer: function() {
+		
+		if (game.input.totalActivePointers == 0) {
+			this.moveLeft = false;
+			this.moveRight = false;
+		}
 
-        if (this.cursor.left.isDown || this.wasd.left.isDown) {
+        if (this.cursor.left.isDown || this.wasd.left.isDown ||  this.moveLeft) {
             this.player.body.velocity.x = -200;
 			this.player.animations.play('left'); // Left animation
 			this.player.scale.x=1;
         }
-        else if (this.cursor.right.isDown || this.wasd.right.isDown) {
+        else if (this.cursor.right.isDown || this.wasd.right.isDown || this.moveRight) {
             this.player.body.velocity.x = 200;
 			this.player.animations.play('left'); // Right animation
 			this.player.scale.x=-1;
@@ -118,6 +138,7 @@ var playState = {
         }
 
         if ((this.cursor.up.isDown || this.wasd.up.isDown) && this.player.body.onFloor()) {
+			this.jumpPlayer();
 			this.jumpSound.play();
 			this.player.body.velocity.y = -320;
 		}
@@ -170,23 +191,15 @@ var playState = {
         enemy.outOfBoundsKill = true;
     },
 	
+	
 //This is the function to create the world and walls in it
     createWorld: function() {
-    // Create the tilemap
     this.map = game.add.tilemap('map');
-
-    // Add the tileset to the map
     this.map.addTilesetImage('tileset');
-
-    // Create the layer by specifying the name of the Tiled layer
     this.layer = this.map.createLayer('Tile Layer 1');
-
-    // Set the world size to match the size of the layer
     this.layer.resizeWorld();
-
-    // Enable collisions for the first tilset element (the blue wall)
     this.map.setCollision(1);
-},
+	},
 	
 //This is the player death function; music stops,player dies with sound and ends the game
 	playerDie: function() {
@@ -221,6 +234,57 @@ var playState = {
         this.player.reset(newPosition.x, newPosition.y);
 	},
 	
+	jumpPlayer: function() {
+		if (this.player.body.onFloor()) {
+			this.player.body.velocity.y = -320;
+			this.jumpSound.play();
+		}
+	},
+	
+	addMobileInputs: function() {
+
+		var jumpButton = game.add.sprite(350, 240, 'jumpButton');
+		jumpButton.inputEnabled = true;
+		jumpButton.alpha = 0.5;
+		jumpButton.events.onInputDown.add(this.jumpPlayer, this);
+		
+		this.moveLeft = false;
+		this.moveRight = false;
+
+		var leftButton = game.add.sprite(50, 240, 'leftButton');
+		leftButton.inputEnabled = true;
+		leftButton.alpha = 0.5;
+		leftButton.events.onInputOver.add(this.setLeftTrue, this);
+		leftButton.events.onInputOut.add(this.setLeftFalse, this);
+		leftButton.events.onInputDown.add(this.setLeftTrue, this);
+		leftButton.events.onInputUp.add(this.setLeftFalse, this);
+
+		var rightButton = game.add.sprite(130, 240, 'rightButton');
+		rightButton.inputEnabled = true;
+		rightButton.alpha = 0.5;
+		rightButton.events.onInputOver.add(this.setRightTrue, this);
+		rightButton.events.onInputOut.add(this.setRightFalse, this);
+		rightButton.events.onInputDown.add(this.setRightTrue, this);
+		rightButton.events.onInputUp.add(this.setRightFalse, this);
+	},
+
+// Basic functions that are used in our callbacks
+	setLeftTrue: function() {
+		this.moveLeft = true;
+	},
+	
+	setLeftFalse: function() {
+		this.moveLeft = false;
+	},
+	
+	setRightTrue: function() {
+		this.moveRight = true;
+	},
+	
+	setRightFalse: function() {
+		this.moveRight = false;
+	},
+	
 //This is the function used to create the timer
 	createTimer: function(){
  
@@ -249,6 +313,16 @@ var playState = {
 	};
 },
 
+	orientationChange: function() {
+		if (game.scale.isPortrait) {
+			game.paused = true;
+			this.rotateLabel.text = 'rotate your device in landscape';
+		}
+		else {
+			game.paused = false;
+			this.rotateLabel.text = '';
+		}
+},
 
 startMenu: function() {
     game.state.start('menu');
