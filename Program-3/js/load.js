@@ -1,13 +1,11 @@
 var loadState = {
     preload: function () {
-        // Add a 'loading...' label on the screen
+		
         var loadingLabel = game.add.text(game.width/2, 150, 'loading...', { font: '30px Arial', fill: '#ffffff' });
         loadingLabel.anchor.setTo(0.5, 0.5);
-        // Display the progress bar
         var progressBar = game.add.sprite(game.width/2, 200, 'progressBar');
         progressBar.anchor.setTo(0.5, 0.5);
         game.load.setPreloadSprite(progressBar);
-        // Load all our assets
 		
 		game.load.spritesheet('mute', 'assets/muteButton.png', 28, 22);
 		
@@ -23,7 +21,7 @@ var loadState = {
 		game.load.audio('music', ['assets/Next.mp3', 'assets/Next.ogg']);
 
 		game.load.image('tileset', 'assets/tileset.png');
-		game.load.tilemap('map', 'assets/map.json', null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap('map', 'assets/map2.json', null, Phaser.Tilemap.TILED_JSON);
 		
     },
     create: function() {
