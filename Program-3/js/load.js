@@ -21,7 +21,7 @@ var loadState = {
 		game.load.audio('music', ['assets/Next.mp3', 'assets/Next.ogg']);
 
 		game.load.image('tileset', 'assets/tileset.png');
-		game.load.tilemap('map', 'assets/map2.json', null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap('map', 'assets/map3.json', null, Phaser.Tilemap.TILED_JSON);
 		
     },
     create: function() {
