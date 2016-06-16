@@ -1,9 +1,9 @@
 var loadState = {
     preload: function () {
 		
-		game.load.image('jumpButton', 'assets/jumpButton.png');
-		game.load.image('rightButton', 'assets/rightButton.png');
-		game.load.image('leftButton', 'assets/leftButton.png');
+		game.load.image('jumpButton', 'assets/Upie.png');
+		game.load.image('rightButton', 'assets/Rightie.png');
+		game.load.image('leftButton', 'assets/Leftie.png');
 		
         var loadingLabel = game.add.text(game.width/2, 150, 'loading...', { font: '30px Arial', fill: '#ffffff' });
         loadingLabel.anchor.setTo(0.5, 0.5);
