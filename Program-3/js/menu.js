@@ -1,37 +1,35 @@
 var menuState = {
     create: function() {
-        // Add a background image
         game.add.image(0, 0, 'background');
-        // Display the name of the game
+		
         var nameLabel = game.add.text(game.width/2, 80, 'Lil Bunny', { font: '50px Arial', fill: '#ffffff' });
+		
         nameLabel.anchor.setTo(0.5, 0.5);
-        // Show the score at the center of the screen
+		
         var text = 'score: ' + game.global.score + '\nbest score: ' + localStorage.getItem('bestScore');
+		
 		var scoreLabel = game.add.text(game.width/2, game.height/2, text, { font: '25px Arial', fill: '#ffffff', align: 'center' });
-        scoreLabel.anchor.setTo(0.5, 0.5);
-        // Explain how to start the game
+        
+		scoreLabel.anchor.setTo(0.5, 0.5);
+		
         var startLabel = game.add.text(game.width/2, game.height-80,
             'press the up arrow key to start',
             { font: '25px Arial', fill: '#ffffff' });
-        startLabel.anchor.setTo(0.5, 0.5);
-        // Create a new Phaser keyboard variable: the up arrow key
-        // When pressed, call the 'start' function once
-        var upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-        upKey.onDown.add(this.start, this);
+        
+		startLabel.anchor.setTo(0.5, 0.5);
+        
+		var upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+		
+		upKey.onDown.add(this.start, this);
 		
 		game.add.tween(startLabel).to({angle: -2}, 500).to({angle: 2}, 1000).to({angle: 0}, 500).loop().start();
 		
-		// Create the tween
+		
 		var tween = game.add.tween(startLabel);
-		// Rotate the label to -2 degrees in 500ms
 		tween.to({angle: -2}, 500);
-		// Then rotate the label to +2 degrees in 1000ms
 		tween.to({angle: 2}, 1000);
-		// And get back to our initial position in 500ms
 		tween.to({angle: 0}, 500);
-		// Loop indefinitely the tween
 		tween.loop();
-		// Start the tween
 		tween.start();
 		
 		// Create the tween

@@ -38,7 +38,14 @@ var playState = {
 		this.deadSound = game.add.audio('dead');
 	
         this.cursor = game.input.keyboard.createCursorKeys();
-        
+        this.wasd = {
+			up: this.game.input.keyboard.addKey(Phaser.Keyboard.W),
+			down: this.game.input.keyboard.addKey(Phaser.Keyboard.S),
+			left: this.game.input.keyboard.addKey(Phaser.Keyboard.A),
+			right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
+		};
+		
+		
         this.player = game.add.sprite(game.width/2, game.height/2, 'player');
 		
         game.physics.arcade.enable(this.player);
@@ -69,8 +76,9 @@ var playState = {
 		this.player.animations.add('left', [1, 2], 8, true);
     },
     update: function() {
-        game.physics.arcade.collide(this.player, this.walls);
-        game.physics.arcade.collide(this.enemies, this.walls);
+		
+        game.physics.arcade.collide(this.player, this.layer);
+        game.physics.arcade.collide(this.enemies, this.layer);
         game.physics.arcade.overlap(this.player, this.coin, this.takeCoin, null, this);
         game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
 		
@@ -87,17 +95,18 @@ var playState = {
 		if (!this.player.alive) {
 			return;
 		}
+		
     },
 	
 //This is the function to decide the actions of the movement of the player and what happens
     movePlayer: function() {
 
-        if (this.cursor.left.isDown) {
+        if (this.cursor.left.isDown || this.wasd.left.isDown) {
             this.player.body.velocity.x = -200;
 			this.player.animations.play('left'); // Left animation
 			this.player.scale.x=1;
         }
-        else if (this.cursor.right.isDown) {
+        else if (this.cursor.right.isDown || this.wasd.right.isDown) {
             this.player.body.velocity.x = 200;
 			this.player.animations.play('left'); // Right animation
 			this.player.scale.x=-1;
@@ -108,10 +117,10 @@ var playState = {
 			this.player.frame = 0; // Change frame (stand still)
         }
 
-        if (this.cursor.up.isDown && this.player.body.touching.down) {
+        if ((this.cursor.up.isDown || this.wasd.up.isDown) && this.player.body.onFloor()) {
 			this.jumpSound.play();
-            this.player.body.velocity.y = -320;
-        }
+			this.player.body.velocity.y = -320;
+		}
     },
 	
 //This is the function where the player will take a coin and this will spawn another and add
@@ -163,24 +172,21 @@ var playState = {
 	
 //This is the function to create the world and walls in it
     createWorld: function() {
-        this.walls = game.add.group();
-        this.walls.enableBody = true;
+    // Create the tilemap
+    this.map = game.add.tilemap('map');
 
-        game.add.sprite(0, 0, 'wallV', 0, this.walls); 
-        game.add.sprite(480, 0, 'wallV', 0, this.walls); 
-        game.add.sprite(0, 0, 'wallH', 0, this.walls); 
-        game.add.sprite(300, 0, 'wallH', 0, this.walls);
-        game.add.sprite(0, 320, 'wallH', 0, this.walls); 
-        game.add.sprite(300, 320, 'wallH', 0, this.walls); 
-        game.add.sprite(-100, 160, 'wallH', 0, this.walls); 
-        game.add.sprite(400, 160, 'wallH', 0, this.walls); 
-        var middleTop = game.add.sprite(100, 80, 'wallH', 0, this.walls);
-        middleTop.scale.setTo(1.5, 1);
-        var middleBottom = game.add.sprite(100, 240, 'wallH', 0, this.walls);
-        middleBottom.scale.setTo(1.5, 1);
+    // Add the tileset to the map
+    this.map.addTilesetImage('tileset');
 
-        this.walls.setAll('body.immovable', true);
-    },
+    // Create the layer by specifying the name of the Tiled layer
+    this.layer = this.map.createLayer('Tile Layer 1');
+
+    // Set the world size to match the size of the layer
+    this.layer.resizeWorld();
+
+    // Enable collisions for the first tilset element (the blue wall)
+    this.map.setCollision(1);
+},
 	
 //This is the player death function; music stops,player dies with sound and ends the game
 	playerDie: function() {
