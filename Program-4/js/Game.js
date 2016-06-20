@@ -17,6 +17,8 @@ SpaceHipster.Game.prototype = {
 ///////////////////////////////////////////////////////
   create: function() {
       
+      //I got the bullets working, but i didn't have time to get the skilllevel working again. That's what i'm stuck on now
+      
       var SkillLevel={};
       this.SkillLevel.easy = [25,50];
       this.SkillLevel.medium = [50,150];
