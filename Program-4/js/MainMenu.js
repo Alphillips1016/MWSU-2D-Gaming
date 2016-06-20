@@ -18,8 +18,20 @@ SpaceHipster.MainMenu.prototype = {
     this.background.autoScroll(-20, 0);
 
     //start game text
-    var text = "Tap to begin";
+      
+          var text = "Space Hipster Modified";
+    var style = { font: "50px Geo", fill: "#fff", align: "center" };
+    var t = this.game.add.text(this.game.width/2, this.game.height/4, text, style);
+    t.anchor.set(0.5);
+      
+//This is the main menu, below are the difficulty options in the game!
+    var text = "Press any of the following...";
     var style = { font: "30px Arial", fill: "#fff", align: "center" };
+    var t = this.game.add.text(this.game.width/2, this.game.height/2-35, text, style);
+    t.anchor.set(0.5);
+      
+    var text = "'E' For Easy : 'M' for Medium  : 'H' for Hard";
+    var style = { font: "20px Arial", fill: "#fff", align: "center" };
     var t = this.game.add.text(this.game.width/2, this.game.height/2, text, style);
     t.anchor.set(0.5);
 
@@ -29,11 +41,31 @@ SpaceHipster.MainMenu.prototype = {
   
     var h = this.game.add.text(this.game.width/2, this.game.height/2 + 50, text, style);
     h.anchor.set(0.5);
+      
+      this.cursor = this.game.input.keyboard.createCursorKeys();
+        this.option = {
+          easy: this.game.input.keyboard.addKey(Phaser.Keyboard.E),
+          medium: this.game.input.keyboard.addKey(Phaser.Keyboard.M),
+          hard: this.game.input.keyboard.addKey(Phaser.Keyboard.H),
+        }
   },
-    
   update: function() {
-    if(this.game.input.activePointer.justPressed()) {
-      this.game.state.start('Game');
+    if(this.option.easy.isDown) {
+        this.skillLevel=0;
+        this.game.state.start('Game');
     }
-  }
+    else if (this.option.medium.isDown) {
+        this.skillLevel=1;
+        this.game.state.start('Game');
+    }
+    else if (this.option.hard.isDown) {
+        this.skillLevel=2;
+        this.game.state.start('Game');
+    }
+    else {
+        this.cursor.easy=false;
+        this.cursor.medium=false;
+        this.cursor.hard=false;
+    }
+},
 };

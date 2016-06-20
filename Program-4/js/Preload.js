@@ -17,7 +17,9 @@ SpaceHipster.Preload.prototype = {
   	//load game assets
   	this.load.image('space', 'assets/images/space2.png');
   	this.load.image('rock', 'assets/images/Asteroid.png');
-    this.game.load.image('bullet', 'https://raw.githubusercontent.com/jschomay/phaser-demo-game/master/assets/bullet.png');
+      
+    this.game.load.image('bullet', 'assets/images/bullet.png');
+      
     this.load.spritesheet('playership', 'assets/images/enemy.png', 12, 12);
     this.load.spritesheet('power', 'assets/images/power2.png', 12, 12);
   	this.load.image('playerParticle', 'assets/images/player-particle.png');
