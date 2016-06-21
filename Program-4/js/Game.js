@@ -31,12 +31,35 @@ SpaceHipster.Game.prototype = {
 		//set world dimensions
 		this.game.world.setBounds(0, 0, 1920, 1920);
 
+<<<<<<< HEAD
 		//background
 		this.background = this.game.add.tileSprite(0, 
 												0, 
 												this.game.world.width, 
 												this.game.world.height, 
 												'space');
+=======
+///////////////////////////////////////////////////////
+  create: function() {
+      
+      //I got the bullets working, but i didn't have time to get the skilllevel working again. That's what i'm stuck on now
+      
+      var SkillLevel={};
+      this.SkillLevel.easy = [25,50];
+      this.SkillLevel.medium = [50,150];
+      this.SkillLevel.hard = [150,250];
+      
+      
+      this.cursors;
+      this.bulletTime=0;
+      
+  	//set world dimensions
+      
+    this.game.world.setBounds(0, 0, 1920, 1920);
+      
+    //background
+    this.background = this.game.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'space');
+>>>>>>> ed4ffbe7485b7eebeca9f45ab12266ff7da9ca82
 
 		//create player
 		this.player = this.game.add.sprite(this.game.world.centerX, 
