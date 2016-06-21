@@ -1,6 +1,5 @@
 var SpaceHipster = SpaceHipster || {};
 
-//title screen
 SpaceHipster.MainMenu = function(){};
 
 SpaceHipster.MainMenu.prototype = {
@@ -11,61 +10,61 @@ SpaceHipster.MainMenu.prototype = {
     this.highestScore = Math.max(score, this.highestScore);
    },
   create: function() {
-  	//show the space tile, repeated
     this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'space');
-    
-    //give it speed in x
     this.background.autoScroll(-20, 0);
-
-    //start game text
-      
-          var text = "Space Hipster Modified";
-    var style = { font: "50px Geo", fill: "#fff", align: "center" };
-    var t = this.game.add.text(this.game.width/2, this.game.height/4, text, style);
+    this.game.global = {
+    skillLevel: 1,
+    Thearray: [3, 4, 5, 6, 7, 8, 9, 10]
+	};
+     
+    //Used Indie Flower Font instead of Ariel
+    var text = "Space Hipster";
+    var style = { font: "60px Indie Flower", fill: "#fff", align: "center" };
+    var t = this.game.add.text(this.game.width/2, this.game.height/2-100, text, style);
     t.anchor.set(0.5);
       
-//This is the main menu, below are the difficulty options in the game!
-    var text = "Press any of the following...";
-    var style = { font: "30px Arial", fill: "#fff", align: "center" };
-    var t = this.game.add.text(this.game.width/2, this.game.height/2-35, text, style);
+    var text = "Please Click to";
+    var style = { font: "30px Indie Flower", fill: "#fff", align: "center" };
+    var t = this.game.add.text(this.game.width/2, this.game.height/2-50, text, style);
     t.anchor.set(0.5);
       
-    var text = "'E' For Easy : 'M' for Medium  : 'H' for Hard";
-    var style = { font: "20px Arial", fill: "#fff", align: "center" };
+    var text = "Choose Level Below...";
+    var style = { font: "30px Indie Flower", fill: "#fff", align: "center" };
     var t = this.game.add.text(this.game.width/2, this.game.height/2, text, style);
     t.anchor.set(0.5);
+	var onie = this.game.add.button(this.game.width/2 - 200, 
+						this.game.height/2 + 50, 'First', 
+						this.setLevel, this);	
+	var twoie = this.game.add.button(this.game.width/2 -50, 
+						this.game.height/2 + 50, 'Second', 
+						this.setLevel, this);
+	var threeie = this.game.add.button(this.game.width/2 + 110,
+						this.game.height/2 + 50, 'Third', 
+						this.setLevel, this);			
 
     //highest score
     text = "Highest score: "+this.highestScore;
     style = { font: "15px Arial", fill: "#fff", align: "center" };
   
-    var h = this.game.add.text(this.game.width/2, this.game.height/2 + 50, text, style);
+    var h = this.game.add.text(this.game.width/2, this.game.height/2 + 200, text, style);
     h.anchor.set(0.5);
-      
-      this.cursor = this.game.input.keyboard.createCursorKeys();
-        this.option = {
-          easy: this.game.input.keyboard.addKey(Phaser.Keyboard.E),
-          medium: this.game.input.keyboard.addKey(Phaser.Keyboard.M),
-          hard: this.game.input.keyboard.addKey(Phaser.Keyboard.H),
-        }
   },
+  
   update: function() {
-    if(this.option.easy.isDown) {
-        this.skillLevel=0;
-        this.game.state.start('Game');
-    }
-    else if (this.option.medium.isDown) {
-        this.skillLevel=1;
-        this.game.state.start('Game');
-    }
-    else if (this.option.hard.isDown) {
-        this.skillLevel=2;
-        this.game.state.start('Game');
-    }
-    else {
-        this.cursor.easy=false;
-        this.cursor.medium=false;
-        this.cursor.hard=false;
-    }
-},
+  },
+  
+  setLevel: function(level){
+	  if(level.key == "First"){
+		this.game.global.skillLevel = 1;
+		this.game.state.start('Game')		 
+	  }
+	  if(level.key == "Second"){
+		this.game.global.skillLevel = 2;
+		this.game.state.start('Game')
+	  }
+	  if(level.key == "Third"){
+		this.game.global.skillLevel = 3;
+		this.game.state.start('Game')		 
+	  }
+  }
 };
