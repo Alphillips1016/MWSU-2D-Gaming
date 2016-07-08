@@ -1,3 +1,4 @@
+
 var bootState = {
     preload: function () {
         // Load the image

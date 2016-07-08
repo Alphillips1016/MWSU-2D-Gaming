@@ -102,9 +102,11 @@ var playState = {
 //If the player goes out of the world bounds then instead of restarting the game i threw in the previous added 
 //function to update the location of the player randomly
         if (!this.player.inWorld) {
-			this.deadSound.play();
-			game.camera.flash(0xffffff, 300);
-            this.UpdatePlayerLocation();
+			this.nextlevel();
+//This is what i had before in the original game before the other level...
+//			this.deadSound.play();
+//			game.camera.flash(0xffffff, 300);
+//            this.UpdatePlayerLocation();
         }
 		
 		if (!this.player.alive) {
@@ -326,5 +328,9 @@ var playState = {
 
 startMenu: function() {
     game.state.start('menu');
+},
+
+nextlevel:function(){
+	this.game.state.start('level2');
 },
 };

@@ -23,7 +23,7 @@ var loadState = {
 		game.load.audio('coin', ['assets/coin.ogg', 'assets/coin.mp3']);
 		game.load.audio('dead', ['assets/dead.ogg', 'assets/dead.mp3']);	
 		game.load.audio('music', ['assets/Next.mp3', 'assets/Next.ogg']);
-
+		game.load.tilemap('map3', 'assets/map3.json',null, Phaser.Tilemap.TILED_JSON);
 		game.load.image('tileset', 'assets/tileset.png');
 		game.load.tilemap('map', 'assets/map4.json', null, Phaser.Tilemap.TILED_JSON);
 		
