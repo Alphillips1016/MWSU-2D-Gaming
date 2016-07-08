@@ -22,7 +22,7 @@ var nextState = {
 		this.music = game.add.audio('music'); // Add the music
 		this.music.loop = true; // Make it loop
 //		this.music.play(); // Start the music
-		game.stage.backgroundColor = '#AB5BA4';
+		game.stage.backgroundColor = '#FA2D9E';
 		
 		var me = this;
 		me.startTime = new Date();
@@ -196,7 +196,7 @@ var nextState = {
 	
 //This is the function to create the world and walls in it
     createWorld: function() {
-    this.map = game.add.tilemap('map3');
+    this.map = game.add.tilemap('level2map');
     this.map.addTilesetImage('tileset');
     this.layer = this.map.createLayer('Tile Layer 1');
     this.layer.resizeWorld();

@@ -1,11 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="17" tilewidth="20" tileheight="20" nextobjectid="1">
- <tileset firstgid="1" name="tileset" tilewidth="20" tileheight="20" tilecount="8" columns="2">
-  <image source="Game Development Tools/Game things/tileset.png" width="40" height="20"/>
- </tileset>
- <layer name="Tile Layer 1" width="25" height="17">
-  <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,1,
+{ "backgroundcolor":"#dc49dc",
+ "height":17,
+ "layers":[
+        {
+         "height":17,
+         "image":"..\/jungle_flat.png",
+         "name":"Image Laye",
+         "offsetx":-4.66666666666669,
+         "offsety":11.3333333333334,
+         "opacity":0.850000023841858,
+         "type":"imagelayer",
+         "visible":true,
+         "width":25,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,1,1,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0,1,
@@ -21,7 +31,34 @@
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1
-</data>
- </layer>
-</map>
+1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1],         "height":17,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":25,
+         "x":0,
+         "y":0
+        }],
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tileheight":20,
+ "tilesets":[
+        {
+         "columns":2,
+         "firstgid":1,
+         "image":"..\/assets\/assets\/tileset.png",
+         "imageheight":20,
+         "imagewidth":40,
+         "margin":0,
+         "name":"tileset",
+         "spacing":0,
+         "tilecount":2,
+         "tileheight":20,
+         "tilewidth":20
+        }],
+ "tilewidth":20,
+ "version":1,
+ "width":25
+}
