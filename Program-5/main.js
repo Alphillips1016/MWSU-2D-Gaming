@@ -1,3 +1,6 @@
+//Group Project SADCAN; Aimee Phillips, Andrew M., and Ben S.
+//Roster 19
+
 var mainState = {
 
     preload: function()

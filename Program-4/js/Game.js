@@ -192,7 +192,12 @@ SpaceHipster.Game.prototype = {
 		this.asteroids = this.game.add.physicsGroup(Phaser.Physics.ARCADE);
 		var minimum;
 		var maximum;
+		//Using global variables to get the skill level to work here to choose
+		//what it is and decide the astroid count here as well
 		if (this.game.global.skillLevel == 1){
+			
+			var x;
+			//This is the astroid count number here for difficulty
 			minimum = 25;
 			maximum = 50;
 		}
@@ -204,6 +209,7 @@ SpaceHipster.Game.prototype = {
 			minimum = 150;
 			maximum = 250;		
 		}
+		//This actually generates the astroid count in range here for the level chosen
 		var numAsteroids = this.game.rnd.integerInRange(minimum, maximum);
 		for (var i = 0; i < numAsteroids; i++){
 			this.generateAsteroid();
@@ -235,6 +241,7 @@ SpaceHipster.Game.prototype = {
 		this.collectables.physicsBodyType = Phaser.Physics.ARCADE;
 		var numCollectables = this.game.rnd.integerInRange(100, 150)
 		var collectable;
+		//This was a given animation, and it makes the collect things kinda pulse
 		for (var i = 0; i < numCollectables; i++) {
 			collectable = this.collectables.create(this.game.world.randomX, 
 												this.game.world.randomY, 
@@ -276,6 +283,7 @@ SpaceHipster.Game.prototype = {
     
 	///////////////////////////////////////////////////////
 	//Supposed to fire the bullet when called upon in update
+	//Help given by Griffin, and used his example code here
     ///////////////////////////////////////////////////////
 	fireBullet: function(){
 		if (this.game.time.now > this.bulletTime)
@@ -284,6 +292,7 @@ SpaceHipster.Game.prototype = {
 
             if (this.bullet)
             {
+				var y;
                 this.bullet.rotation = this.player.rotation + Math.PI/2;
                 var bs = this.bulletStart(40);
                 this.bullet.reset(bs.dx, bs.dy);

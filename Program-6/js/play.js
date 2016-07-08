@@ -1,6 +1,9 @@
 //Aimee Phillips: Changing code for Program 6
 //Roster 19
 //Group SADCAN; Ben, and Andrew
+//Program to demonstrate a server client for multiplayer
+//Only thing changed was making the final steps in creating the player
+//on the server to appear to another with that state, and color tint in this case too
 
 var playState = {
     /** 
@@ -119,19 +122,17 @@ var playState = {
             //if the id doesn't exist in your local table
             // then spawn the enemy
 			
-			//Put to the console log here
+			//Put the list of the players to the console log here
 			console.log('player list : ', globals.playerList);
-			
 			console.log('Spawning New Player');
 			//This actually makes the character to go with the state information 
 			if(!globals.playerList[id]){
+				var x;
 				var newDude = new Player(id, game);
 				newDude.sprite.tint = enemy_state.tint;
 				globals.playerList[id] = newDude;
 				//and adds to the list
 			}
-            console.log('enemy state: ', id, enemy_state);
-            console.log(globals.playerList);
         }      
         this.client.exports.updateState = function(id, player_state){
             if(globals.myId == id){
